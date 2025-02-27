@@ -632,36 +632,6 @@ const html = `<!DOCTYPE HTML>
             const fileExpires = fileUrl.searchParams.get('expires');
             videoName = data.title + '.' + data.file.mime.replace('video/', '');
             const download = encodeURIComponent('Iwara - ' + data.title + ' [' + data.id + '].' + data.file.mime.replace('video/', ''));
-      
-            //标题检查
-            if(data.title.search(/(NTR)/i) != -1){
-              let listener = setInterval(()=>{videoElement.pause();},300);
-              swal({
-                title:'温馨提示',
-                text:'该视频标题为'+data.title+'。检测到该视频标题含有NTR关键字，是否继续播放该视频？',
-                buttons:{
-                  cancel: {
-                    text: "播放",
-                    value: false,
-                    visible: true
-                  },
-                  confirm: {
-                    text: "不播放",
-                    value: true,
-                    visible: true
-                  }
-                }
-              }).then((value) => {
-                  clearInterval(listener1);
-                  clearInterval(listener);
-                  if (value) {
-                  document.querySelector('#closeButton').click();
-                  return;
-                  }else{
-                  videoElement.play();
-                }
-                });
-            }
 
             // 要哈希的字符串
             const inputString = id + "_" + fileExpires + "_5nFp9kmbNnHdAFhaqMvt";
