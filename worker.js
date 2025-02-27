@@ -290,8 +290,6 @@ const html = `<!DOCTYPE HTML>
         const iframeContainer = document.querySelector('#iframeContainer');
         const videoElement = document.querySelector('#myVideo');
 
-        let listener1 = setInterval(()=>{videoElement.pause();},300);
-
        document.addEventListener('DOMContentLoaded', () => {
         setTimeout(function() {
           var el = document.getElementsByTagName('html')[0];
@@ -685,7 +683,7 @@ const html = `<!DOCTYPE HTML>
                 }
               }).then(data => {
                   console.log(data);
-                  const videoUrl = 'https:' + getVideoViewUrlByQuality(data, videoQuality);
+                  const videoUrl = 'https:' + getVideoViewUrlByQuality(data, "Source");
                   console.log('获取视频链接：' + videoUrl);
                   const FinUrl = '/view?url=' + encodeURIComponent(videoUrl);
                   videoPlayUrl = FinUrl;
