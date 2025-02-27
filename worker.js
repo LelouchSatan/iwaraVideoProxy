@@ -284,38 +284,13 @@ const html = `<!DOCTYPE HTML>
        // 获取id参数值
         idValue = (new URLSearchParams(location.search)).get('id');
         // 获取视频质量, 默认540p
-        videoQuality = (new URLSearchParams(location.search)).get('quality') || '540';
+        videoQuality = (new URLSearchParams(location.search)).get('quality') || 'Source';
 
         // 获取关闭按钮和 iframeContainer
         const iframeContainer = document.querySelector('#iframeContainer');
         const videoElement = document.querySelector('#myVideo');
 
         let listener1 = setInterval(()=>{videoElement.pause();},300);
-
-        swal({
-            title:'温馨提示',
-            text:'本网站免费提供I站(Iwara)视频播放和下载服务！使用前请遵守当地法律法规！如果您能访问I站，强烈建议到I站官网观看更多精彩视频！是否跳转I站官网？',
-            buttons:{
-              cancel: {
-                text: "暂不跳转",
-                value: false,
-                visible: true
-              },
-              confirm: {
-                text: "跳转I站",
-                value: true,
-                visible: true
-              }
-            }
-          }).then((value) => {
-             clearInterval(listener1);
-              if (value) {
-                  let shareId = (new URL(location.href)).searchParams.get('id');
-                  shareId ? location.replace('https://www.iwara.tv/video/'+shareId) : location.replace('https://www.iwara.tv');
-              }else{
-              videoElement.play();
-            }
-            });
 
        document.addEventListener('DOMContentLoaded', () => {
         setTimeout(function() {
