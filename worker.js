@@ -43,8 +43,8 @@ const html = `<!DOCTYPE HTML>
          }
    
          #myVideo {
-           width: 95%; 
-           height: 95%; 
+           width: 96%; 
+           height: 100%; 
            border: none; 
          }
    
@@ -143,18 +143,6 @@ const html = `<!DOCTYPE HTML>
           transition: .2s opacity ease;
         }
 
-        .wrap .link-area #save {
-          width: 90px;
-          height: 38px;
-          margin: 0 0 0 10px;
-          background: #CCCC00;
-          border-radius: 5px;
-          color: #fff;
-          border: none;
-          cursor: pointer;
-          transition: .2s opacity ease;
-        }
-        
         .wrap .link-area #share {
           width: 90px;
           height: 38px;
@@ -230,28 +218,14 @@ const html = `<!DOCTYPE HTML>
      <body>
        <div id="iframeContainer">
          <!-- 使用 video 元素来加载视频 -->
-         <button id="closeButton" style="position: absolute; top: 10px; right: 6px; z-index: 1001; background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">关闭</button>
-         <button id="saveButton" style="display: none; position: absolute; top: 10px; right: 120px; z-index: 1001; background-color: #CCCC00; color: white; border: none; padding: 5px 10px; cursor: pointer;">收藏</button>
-         <button id="downButton" style="position: absolute; top: 45px; right: 6px; z-index: 1001; background-color: #87ceeb; color: white; border: none; padding: 5px 10px; cursor: pointer;">下载</button>
+         <button id="closeButton" style="position: absolute; top: 6px; right: 6px; z-index: 1001; background-color: red; color: white; border: none; line-height: 20px; width: 20px; height: 20px; cursor: pointer;">X</button>
+         <button id="downButton" style="position: absolute; top: 30px; right: 6px; z-index: 1001; background-color: #87ceeb; color: white; border: none; line-height: 20px; width: 20px; height: 20px; cursor: pointer;">⬇</button>
          <video id="myVideo" controls autoplay>
            <source class="videoSource" src="" type="video/mp4" />
            <source class="videoSource" src="" type="video/webm">
            <source class="videoSource" src="" type="video/ogg">
            您的浏览器不支持视频播放。
          </video>
-       </div>
-
-       <div id="saveVideos" style="display:none">
-       <table id="data-table">
-        <thead>
-            <tr>
-                <th>视频名称</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-       </table>
        </div>
    
        <div class="wrap">
@@ -268,7 +242,6 @@ const html = `<!DOCTYPE HTML>
            </select>
            <input id="submit" type="button" value="播放视频" />
            <input id="hot" type="button" value="随机热门" />
-           <input id="save" type="button" value="打开收藏" />
            <input id="share" type="button" value="分享视频" />
          </div>
          <div class="footer">
@@ -316,8 +289,6 @@ const html = `<!DOCTYPE HTML>
 
       document.querySelector('#share').addEventListener('click', ()=>{copyLinkToClipboard(null)});
 
-      document.querySelector('#save').addEventListener('click', ()=>{getSaveVideos(JSON.parse(localStorage.getItem('save')));});
-
       document.querySelector('#video').addEventListener('input', () => {
         let videoUrl = document.querySelector('#video').value;
         if (videoUrl.startsWith('https://www.iwara.tv/video/')) {
@@ -351,17 +322,6 @@ const html = `<!DOCTYPE HTML>
             timer: 1500,
           });
         document.body.removeChild(link);
-      });
-
-      document.querySelector('#saveButton').addEventListener('click', () => {
-        let data = localStorage.getItem('save') ? JSON.parse(localStorage.getItem('save')) : {};
-        data[playId] = videoName;
-        localStorage.setItem('save',JSON.stringify(data));
-        swal("收藏成功!", {
-            icon: "success",
-            buttons: false,
-            timer: 1500,
-          });
       });
 
       //判断两个时间戳之差是否超过一天
@@ -430,96 +390,6 @@ const html = `<!DOCTYPE HTML>
       // 如果没有找到匹配项，返回第一个对象的src.view属性值
       return objectArray[0].src.view;
   }
-
-     function getSaveVideos(data){
-      // 获取表格的tbody元素
-    const tbody = document.querySelector("#data-table tbody");
- 
-    // 清空表格内容
-    tbody.innerHTML = "";
- 
-    // 动态创建表格行
-    for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-            const row = document.createElement("tr");
- 
-            // 创建value单元格
-            const valueCell = document.createElement("td");
-            valueCell.dataset.id = key;
-            valueCell.textContent = data[key];
-            row.appendChild(valueCell);
- 
-            // 创建按钮单元格
-            const buttonCell = document.createElement("td");
-            let button = document.createElement("button");
-            button.textContent = "播放";
-            button.style.cssText = "width:40%;height:100%;background: #33ccff;border-radius: 5px;color: #fff;border: none;";
-            button.addEventListener("click", (event) => {
-              event.stopPropagation();
-              document.querySelector('#video').value = key;
-              swal.close();
-              skip();
-            });
-            buttonCell.appendChild(button);
-
-            button = document.createElement("button");
-            button.textContent = "删除";
-            button.style.cssText = "margin-left:6px;width:40%;height:100%;background: #ff4665;border-radius: 5px;color: #fff;border: none;";
-            button.addEventListener("click", (event) => {
-                event.stopPropagation();
-                let isDelete = confirm('确认要删除'+data[key]+'吗？');
-                if(!isDelete) return;
-                delete data[key];
-                localStorage.setItem('save',JSON.stringify(data));
-                document.querySelector('#save').click();
-            });
-            buttonCell.appendChild(button);
-
-            row.appendChild(buttonCell);
- 
-            // 将行添加到tbody中
-            tbody.appendChild(row);
-        }
-    }
-      
-    const rows = document.querySelectorAll("#data-table tbody tr");
-
-    rows.forEach(row => {
-        row.addEventListener("click", () => {
-            copyLinkToClipboard('https://www.iwara.tv/video/'+row.cells[0].dataset.id);
-        });
-    });
-
-      swal({
-        content: document.querySelector("#data-table"),
-        buttons:{
-          clear: {
-                text: "清空收藏",
-                value: true
-            },
-          close: {
-                text: "关闭",
-                value: false
-          }
-        }
-      }).then((value)=>{
-         if(value){
-          swal({
-            title:'温馨提示',
-            text:'清空收藏操作不可逆，是否清空收藏内容？',
-            icon:'info',
-            buttons:['取消','清空内容']
-            }).then((value)=>{
-            value ? localStorage.removeItem('save') : swal.close();
-           })
-         }else{
-           swal.close();
-         }
-      });
-
-      document.querySelector("#saveVideos").innerHTML = '<table id="data-table"><thead><tr><th>视频名称</th><th>操作</th></tr></thead><tbody></tbody></table>';
-
-     }
 
       //获取热门视频信息
       function getHots() {
