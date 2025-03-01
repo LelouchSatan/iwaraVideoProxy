@@ -230,9 +230,9 @@ const html = `<!DOCTYPE HTML>
      <body>
        <div id="iframeContainer">
          <!-- 使用 video 元素来加载视频 -->
-         <button id="saveButton" style="position: absolute; top: 10px; right: 120px; z-index: 1001; background-color: #CCCC00; color: white; border: none; padding: 5px 10px; cursor: pointer;">收藏</button>
-         <button id="downButton" style="position: absolute; top: 10px; right: 65px; z-index: 1001; background-color: #87ceeb; color: white; border: none; padding: 5px 10px; cursor: pointer;">下载</button>
-         <button id="closeButton" style="position: absolute; top: 10px; right: 10px; z-index: 1001; background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">关闭</button>
+         <button id="closeButton" style="position: absolute; top: 10px; right: 6px; z-index: 1001; background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">关闭</button>
+         <button id="saveButton" style="display: none; position: absolute; top: 10px; right: 120px; z-index: 1001; background-color: #CCCC00; color: white; border: none; padding: 5px 10px; cursor: pointer;">收藏</button>
+         <button id="downButton" style="position: absolute; top: 45px; right: 6px; z-index: 1001; background-color: #87ceeb; color: white; border: none; padding: 5px 10px; cursor: pointer;">下载</button>
          <video id="myVideo" controls autoplay>
            <source class="videoSource" src="" type="video/mp4" />
            <source class="videoSource" src="" type="video/webm">
